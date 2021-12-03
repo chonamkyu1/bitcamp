@@ -1,0 +1,84 @@
+<!DOCTYPE hmtl>
+<html>
+<head>
+<meta charset = "utf-8">
+<title>CSS menu</title>
+<style>
+    /* nav에 있는 ul 사용해서 메뉴형태 만들기 */
+    nav ul {
+        /*border: 1px solid blue;*/
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #555;
+        overflow: hidden; /*--밑에 딸려온것들 못올라오게해주는 역할*/
+    } 
+    nav li {
+        float: left;  /*-- 한줄에 왼쪽으로 묶는역할--*/
+        border-right: 2px solid #999;
+        
+    }
+    nav li a {
+        display: block;
+        padding: 20px; 20px;
+        font-size: 1.5rem; /* 단위는 붙여서 써야한다*/
+        color: white;
+        text-decoration: none; /* 밑줄 표시 안하는 역할*/
+    }
+    nav a:hover{
+        background-color: #777;
+    }
+    nav .active {
+        background-color: red;
+    }
+    nav li:last-child{
+        float: right;
+        border-left: 2px solid #999;
+        border-right: none;
+    }
+    /*
+    .active {
+        background-color: red;
+        color: white;
+    }
+    nav {
+        margin: 0;
+        padding: 8px;
+        overflow: hidden;
+        
+    }
+    li a {
+        display: inline;
+        padding: 8px;   
+        background-color: black;
+        color: white
+        float: left;
+        list-style-type: none;      
+         
+    }
+    */
+    
+</style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a class="active" href="home">Home</a></li>
+            <li><a href="news">News</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+    </nav>
+    <div>
+        <ul>
+            <li>사과</li>
+            <li>배</li>
+            <li>복숭아</li>
+            
+        </ul>
+    </div>
+    
+    
+</body>
+
+</html>
