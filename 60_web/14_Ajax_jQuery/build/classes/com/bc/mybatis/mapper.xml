@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="members">
+	<!-- select 태그 3개 속성 id, resultType, parameterType
+	id: 사용할 명칭(필수항목), 현재 매퍼엣서 유일한 이름을 사용해야한다.
+	parameterType: 전달받은 파라미터 데이터 타입 지정(선택사항)
+	resultType: 조회 결과값 저장하기 위한 데이터 타입
+		(데이터 하나에 대한 타입 지정)
+	 -->
+	<select id="all" resultType="com.bc.ajax.vo.MemberVO">
+		SELECT * FROM MEMBERS ORDER BY NAME
+	</select>	
+</mapper>
