@@ -1,0 +1,107 @@
+/* *** 함수(FUNCTION) ***
+CREATE OR REPLACE FUNCTION FUNCTION1 
+(
+  PARAM1 IN VARCHAR2  -- 파라미터 작성영역
+) RETURN VARCHAR2 AS -- 리턴 데이터 타입선언 
+BEGIN
+  RETURN NULL; -- 리턴할 값 
+END
+------
+-- 리턴할 데이터에 대한 선언 필요하다.
+RETURN 데이터유형(타입)
+-- 프로그램 마지막에 값 리턴하는 문장 필요하다.
+RETURN 리턴값
+*/
+-- 프로시저는 작업을 처리하는게 목적
+-- 함수는 처리하고 그 값을 되돌려받아 사용하려는게 목적
+
+-- BOOKID로 책제목 확인하는 함수 (파라미터값: BOOKID, RETURN값: BOOKNAME)
+
+CREATE OR REPLACE FUNCTION GET_BOOKNAME (
+  IN_ID IN NUMBER 
+) RETURN VARCHAR2  -- 리턴할 데이터 타입 지정
+AS 
+    V_BOOKNAME BOOK.BOOKNAME%TYPE;
+BEGIN
+    SELECT BOOKNAME INTO V_BOOKNAME
+    FROM BOOK
+    WHERE BOOKID = IN_ID;
+
+    RETURN V_BOOKNAME; -- 리턴값 전달
+END;
+
+---------------------------
+-- 함수(FUNCTION)의 사용
+-- SELECT 절에 사용
+SELECT BOOKID, BOOKNAME, GET_BOOKNAME(BOOKID)
+ FROM BOOK
+ ;
+ -----------------
+SELECT O.*, GET_BOOKNAME(BOOKID)
+ FROM ORDERS O;
+
+--------
+-- WHERE 절에서 함수 사용
+SELECT O.*, GET_BOOKNAME(BOOKID)
+ FROM ORDERS O 
+ WHERE GET_BOOKNAME(BOOKID) = '축구의 이해'
+;
+
+--------------------------------------
+-- 고객ID 값을 받아서 고객명을 돌려주는 함수 작성(CUSTOME 테이블 사용)
+-- 함수명: GET_CUSTNAME
+-- 함수를 사용해서 ORDERS 테이블 데이터 조회
+-- GET_BOOKNAME, GET_CUSTNAME 함수 사용 주문(판매) 정보와 책제목, 고객명 조회
+--------------------------------------------
+create or replace FUNCTION GET_CUSTNAME (
+  IN_CUSTID IN NUMBER 
+) RETURN VARCHAR2
+AS
+    V_NAME CUSTOMER.NAME%TYPE;
+    
+    /*
+    V_GET_BOOKNAME BOOK.BOOKNAME%TYPE
+    V_GET_CUSTNAME CUSTOMER.NAME%TYPE
+    */
+BEGIN
+    SELECT NAME INTO V_NAME
+    FROM CUSTOMER
+    WHERE CUSTID = IN_CUSTID;
+    
+   /* SELECT GET_BOOKNAME, GET_CUSTNAME
+    INTO V_GET_BOOKNAME, V_GET_CUSTNAME
+    FROM ORDERS
+    WHERE GET_BOOKNAME = IN_ID
+    AND GET_CUSTNAME = IN_ID
+    */
+
+  RETURN V_NAME;
+END;
+-- 아래 예시
+SELECT O.*, GET_CUSTNAME(CUSTID) AS CUSTNAME
+ FROM ORDERS O
+;
+SELECT O.*,
+        (SELECT NAME FROM CUSTOMER WHERE CUSTID = O.CUSTID) CUST_NAME
+ FROM ORDERS O
+;
+SELECT O.*, GET_BOOKNAME(BOOKID) BOOK_NAME
+      , GET_CUSTNAME(CUSTID) CUST_NAME
+ FROM ORDERS O
+;
+--------------
+SELECT O.*, B.BOOKNAME, C.NAME
+ FROM ORDERS O, BOOK B, CUSTOMER C
+ WHERE O.BOOKID = B.BOOKID AND O.CUSTID = C.CUSTID -- 조인조건
+; 
+
+
+
+
+
+
+
+
+
+
+
