@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<typeAliases>
+		<typeAlias alias="member" type="com.spring.exam.member.service.MemberVO"/>
+	</typeAliases>
+  
+  <!-- SQL 작성파일인 매퍼 파일 위치 지정 -->
+  <mappers>
+    <mapper resource="mappings/member-mapper.xml"/>
+  </mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
