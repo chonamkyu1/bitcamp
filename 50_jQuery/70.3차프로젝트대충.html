@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>마커에 클릭 이벤트 등록하기</title>
+<script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
+<style>
+.wrap {
+	font-size: 12px;
+	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	/* width: 200px;
+	height: 100px; */
+	overflow: hidden;
+}
+
+.wrap .info {
+	width: 286px;
+	height: 100px;
+	border-radius: 5px;
+	border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+	background: #fff;
+}
+.body {
+	display: flex;
+}
+
+.title {
+	background: #eee;
+	height: 30px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+	<div id="map" style="width: 900px; height: 500px;"></div>
+	<p>
+		<em>마커를 클릭해주세요!</em>
+	</p>
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1fe93fd259e379f4433d83e2cf4ecc9&libraries=services,clusterer,drawing"></script>
+
+	<script>
+		// 지도 중심
+		window.onload = function() {
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(33.46068285013522,
+						126.83143404618308), // 지도의 중심좌표
+				level : 10
+			// 지도의 확대 레벨
+			};
+
+			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다	
+
+			// 지도 컨트롤 표시
+			var zoomControl = new kakao.maps.ZoomControl();
+			map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+			var mapTypeControl = new kakao.maps.MapTypeControl();
+			map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+			// 다중 마커와 인포윈동우 표시
+
+			// 위치 정보와 인포윈도우에 표시할 정보
+			var positions = [
+					[33.45827, 126.94299,
+						'<div class="wrap">'
+					+		'<div class="info">'	
+					+			'<div class="title">성산일출봉</div>'
+					+ 				'<div class="info">'
+					+			 		'<div class="body">'
+					+						'<div class="img">'
+					+							'<img src="img/sungsan.jpg" width = "70" height="70">'
+					+						'</div>'	
+					+						'<div class="desc">'
+					+							'<div class="ellipsis">제주 서귀포시 성산읍 성산리1리</div>'
+					+							'<div class="jibun dllipis">(우) 699-903</div>'
+					+							'<div class="phone">전화번호: 064-783-0959</div>'
+					+							'<div class="link><a href="#">상세보기</a></div>'
+					+						'</div>'
+					+					'</div>'
+					+				'</div>'
+					+		'</div>'
+					+	'</div>'
+					],
+					[33.50501258357466,126.95396213085922,
+							'<div class="wrap">'
+						+		'<div class="info">'	
+						+			'<div class="title">우도</div>'
+						+ 				'<div class="info">'
+						+			 		'<div class="body">'
+						+						'<div class="img">'
+						+							'<img src="img/udo.jpg" width = "70" height="70">'
+						+						'</div>'	
+						+						'<div class="desc">'
+						+							'<div class="ellipsis">제주 제주시 우도면</div>'
+						+							'<div class="phone">전화번호: 064-782-5671</div>'
+						+							'<div class="link><a href="#">상세보기</a></div>'
+						+						'</div>'
+						+					'</div>'
+						+				'</div>'
+						+		'</div>'
+						+	'</div>'
+						],
+					[33.48563012489372,	126.80665075750562, 
+							'<div class="wrap">'
+						+		'<div class="info">'	
+						+			'<div class="title">비자림</div>'
+						+ 				'<div class="info">'
+						+			 		'<div class="body">'
+						+						'<div class="img">'
+						+							'<img src="img/bizarim.jpg" width = "70" height="70">'
+						+						'</div>'	
+						+						'<div class="desc">'
+						+							'<div class="ellipsis">제주 제주시 구좌웁 지자숲길55</div>'
+						+							'<div class="jibun dllipis">지번: 평대리3161-1 (우) 63351</div>'
+						+							'<div class="phone">전화번호: 064-710-7912</div>'
+						+							'<div class="link><a href="#">상세보기</a></div>'
+						+						'</div>'
+						+					'</div>'
+						+				'</div>'
+						+		'</div>'
+						+	'</div>'
+						],
+					[33.43294569123168,	126.927867182225,
+							'<div class="wrap">'
+						+		'<div class="info">'	
+						+			'<div class="title">아쿠아플라넷</div>'
+						+ 				'<div class="info">'
+						+			 		'<div class="body">'
+						+						'<div class="img">'
+						+							'<img src="img/aqua.jpg" width = "70" height="70">'
+						+						'</div>'	
+						+						'<div class="desc">'
+						+							'<div class="ellipsis">제주 서귀포시 성산읍 섭지코지로95</div>'
+						+							'<div class="jibun dllipis">지번: 고성리127-3 (우) 63642</div>'
+						+							'<div class="phone">전화번호: 1833-7001</div>'
+						+							'<div class="link><a href="#">상세보기</a></div>'
+						+						'</div>'
+						+					'</div>'
+						+				'</div>'
+						+		'</div>'
+						+	'</div>'],
+					[33.555911265198986, 126.79635680759992, 
+						'<div class="wrap">'
+						+		'<div class="info">'	
+						+			'<div class="title">월정리해수욕장</div>'
+						+ 				'<div class="info">'
+						+			 		'<div class="body">'
+						+						'<div class="img">'
+						+							'<img src="img/sungsan.jpg" width = "70" height="70">'
+						+						'</div>'	
+						+						'<div class="desc">'
+						+							'<div class="ellipsis">제주 제주시 구좌읍 월정리33-3</div>'
+						+							'<div class="jibun dllipis">(우) 695-975</div>'
+						+							'<div class="link><a href="#">상세보기</a></div>'
+						+						'</div>'
+						+					'</div>'
+						+				'</div>'
+						+		'</div>'
+						+	'</div>'],
+					[33.55816920950816,	126.76003792794955, 
+							'<div class="wrap">'
+						+		'<div class="info">'	
+						+			'<div class="title">김녕해수욕장</div>'
+						+ 				'<div class="info">'
+						+			 		'<div class="body">'
+						+						'<div class="img">'
+						+							'<img src="img/sungsan.jpg" width = "70" height="70">'
+						+						'</div>'	
+						+						'<div class="desc">'
+						+							'<div class="ellipsis">제주 제주시 구좌읍 김녕리</div>'
+						+							'<div class="phone">전화번호: 064-729-3988</div>'
+						+							'<div class="link><a href="#">상세보기</a></div>'
+						+						'</div>'
+						+					'</div>'
+						+				'</div>'
+						+		'</div>'
+						+	'</div>']];
+
+			for (i = 0; i < positions.length; i++) {
+				// 다중 마커
+				var marker = new kakao.maps.Marker({
+					position : new kakao.maps.LatLng(positions[i][0], positions[i][1])
+				}); 
+				marker.setMap(map);
+				
+				// 인포 윈도우
+				/* kakao.maps.event.addListener(marker, 'click', function(marker, i) {
+					return function() {
+						var infowindow = new kakao.maps.InfoWindow({
+							content: '<p style="margin:7px 22px 7px 12px;font:12px/1.5 sans-serif">' + locations[i][2] + '</p>',
+							removable : true
+						});
+						infowindow.open(map, marker);
+					}
+				})(marker, i); */
+				 kakao.maps.event.addListener(marker, 'click', (function(marker, i) {
+					
+	                    return function() {
+	                        var infowindow = new kakao.maps.InfoWindow({
+	                            //content: '<p style="margin:7px 22px 7px 12px;font:12px/1.5 sans-serif">' + positions[i][2] + '</p>', 
+	                            content:  positions[i][2],
+	                            removable : true
+	                           
+	                        });
+	                      infowindow.close(i);  
+	                      infowindow.open(map, marker);
+	                     
+	                    }
+	                    
+	                })(marker, i));
+				
+				
+				}
+				
+		};
+	</script>
+
+
+
+</body>
+</html>
+
+<!-- <script>
+	
+		function initMap() {
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center : new kakao.maps.LatLng(33.46068285013522,
+						126.83143404618308), // 지도의 중심좌표
+				level : 9
+			// 지도의 확대 레벨
+			};
+		}
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+		// 마커를 표시할 위치입니다 
+		var positions = [
+				{
+					content : '<div>성산일출봉<br><a href="sungsan2.jsp">홈페이지: 성산일출봉으로</a>',
+					latlng : new kakao.maps.LatLng(33.45827, 126.94299)
+				},
+				{
+					content : '<div>비자림</div>',
+					latlng : new kakao.maps.LatLng(33.48563012489372,
+							126.80665075750562)
+				},
+				{
+					content : '<div class="wrap">'
+							+ '    <div class="info">'
+							+ '        <div class="title">'
+							+ '            카카오 스페이스닷원'
+							+ '            <div class="close" onclick="closeOverlay()" title="닫기"></div>'
+							+ '        </div>'
+							+ '        <div class="body">'
+							+ '            <div class="img">'
+							+ '                <img src="img/sungsan.jpg" width="73" height="70">'
+							+ '           </div>'
+							+ '            <div class="desc">'
+							+ '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>'
+							+ '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>'
+							+ '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>'
+							+ '            </div>' + '        </div>'
+							+ '    </div>' + '</div>',
+					latlng : new kakao.maps.LatLng(33.43294569123168,
+							126.927867182225)
+				},
+				{
+					content : '<div class="wrap">'
+							+ '    <div class="info">'
+							+ '        <div class="title">'
+							+ '            카카오 스페이스닷원'
+							+ '            <div class="close" onclick="close()" title="닫기"></div>'
+							+ '        </div>'
+							+ '        <div class="body">'
+							+ '            <div class="img">'
+							+ '                <img src="img/sungsan.jpg" width="73" height="70">'
+							+ '           </div>'
+							+ '            <div class="desc">'
+							+ '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>'
+							+ '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>'
+							+ '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>'
+							+ '            </div>' + '        </div>'
+							+ '    </div>' + '</div>',
+					latlng : new kakao.maps.LatLng(33.55816920950816,
+							126.76003792794955)
+				}
+
+		];
+
+		// 마커를 생성합니다
+		function addMarkerInfo() {
+			for (var i = 0; i < positions.length; i++) {
+				var marker = new kakao.maps.Marker({
+					position : positions[i].latlng,
+					map : map,
+				// 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+				});
+
+				// 마커를 지도에 표시합니다.
+				marker.setMap(map);
+
+				var infowindow = new kakao.maps.InfoWindow({
+					content : positions[i].content,
+					removable : true
+				});
+
+				kakao.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map, marker);
+				});
+
+				function close() {
+					infowindow.close();
+				}
+			}
+		}
+	</script> -->
