@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8">
+	<title>JS: if, switch-case</title>
+<script>
+    // if (조건식) {}
+    // if (조건식) {} else {} 
+    // if (조건식) {} else if {} else if {} else {}
+    
+    document.write(" '100' > '20': " + ('100'>'20'), "<br>"); // fasle: 문자열 비교
+    document.write(" '100' > 20: " + ('100'>20), "<br>"); // true: 숫자 비교
+    
+    var jumsu = prompt("점수를 입력하세요(0~100)", 0);
+    document.write("isNaN(" + jumsu + "): " + isNaN(jumsu),"<br>");
+    document.write("입력값: -" + jumsu + "-", "<br>");
+    
+    let result = "평가안됨";
+    if (jumsu >= 90) {
+        rsult = "A";
+    } else if (jumsu >= 80) {
+        result = "B";
+    } else if (jumsu >= 70) {
+        result = "C";
+    } else if (jumsu >= 0){
+        result = "D";
+    } else {
+        result = "숫자가 아님";
+    }
+    document.write("result: " + result, "<br>");
+    
+    // -----------------------------
+    // switch ~ case 분기문
+    let divJumsu = Math.floor(jumsu / 10); // 88 / 10 --> 8.8 --> 8
+    switch(divJumsu) {
+        case 10 : 
+            result = "A";
+            break;
+        case 9 :
+            result = "A";
+            break;
+        case 8 :
+            result = "B";
+            break;
+        case 7 :
+            result = "C";
+            break;
+        default : 
+            result = "D";
+            break;
+    }
+    document.write("<h3>점수: " + jumsu + " - 평가결과2: " + result + "</h3>");
+</script>
+</head>
+<body>
+   
+    
+    
+    
+</body>
+
+</html>
